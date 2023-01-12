@@ -25,8 +25,8 @@ df = lines.select(json_tuple(col("value"),"id","text"),"timestamp") \
 
 # Define the function to write the postgre data
 def patch_postgre (df , batchID) :
-    df.write.format("jdbc").option("url", "jdbc:postgresql://localhost:5432/twitter") \
-    .option("dbtable", "tweets") \
+    df.write.format("jdbc").option("url", "jdbc:postgresql://localhost:5432/twitter") \ #url of your database in postgre. 5432 is default port.
+    .option("dbtable", "tweets") \ #name of your table
     .option("user", "ahmet") \
     .option("password","ahmet123").option("driver","org.postgresql.Driver") \
     .option("truncate", False) \
