@@ -3,23 +3,50 @@ import json
 import time
 import os
 import socket
+from dotenv import load_dotenv
 
 
 
-#URL to add rules for tweet search
+load_dotenv()
 
+bearer_token = os.environ["BEARER_TOKEN"]
 endpoint_rules = "https://api.twitter.com/2/tweets/search/stream/rules"
+tweet_lookup_endpoint = "https://api.twitter.com/2/tweets/"
 
 
 #Body to add into Post request (so this is not "parameter" but "json" part in your Post request)
 query_parameters = {
-"add": [
-    {"value":"earthquake lang:en "}
-]
-}
+    "add": [
+        # {"value": "地震"},
+        {"value": "jishin"},
+        {"value": "gempa bumi"},
+        {"value": "terremoto"},
+        # {"value": "deprem"},
+        # {"value": "भूकम्प"},
+        # {"value": "bhukamp"},
+        {"value": "earthquake"},
+        # {"value": "زلزله"},
+        # {"value": "zelzeleh"},
+        # {"value": "dìzhèn"},
+        # {"value": "भूकंप"},
+        # {"value": "bhūkampa"},
+        # {"value": "lindol"},
+        # {"value": "σεισμός"},
+        # {"value": "seismos"},
+        # {"value": "землетрясение"},
+        # {"value": "zemletryasenie"},
+        # {"value": "tërmet"},
+        # {"value": "земетресение"},
+        # {"value": "zemotresenie"},
+        # {"value": "երկրաշարժ"},
+        # {"value": "erkrasharzh"},
+        # {"value": "მიწისძვრა"},
+        # {"value": "mits'idzghvra"},
+        ]
+    }
 
 #Your bearer token to access Twitter streaming API
-bearer_token = os.getenv("bearer_token")
+#bearer_token = os.getenv("bearer_token")
 
 
 def request_headers(bearer_token: str) -> dict:
@@ -69,9 +96,14 @@ def get_tweets(url,headers):
                 pass
             else:
                 json_response = json.loads(line)  #json.loads----->Deserialize fp (a .read()-supporting text file or binary file containing a JSON document) to a Python object using this conversion table.ie json to python object 
-                conn.send(bytes(str(json_response["data"]) + "\n",'utf-8'))
-
-
+                tweet_id = json_response["data"]["id"]
+                params = {
+                    'tweet.fields':'geo,lang,withheld', 
+                    'expansions':'geo.place_id'
+                    }
+                tweet_lookup = requests.get(url=tweet_lookup_endpoint + tweet_id, headers=headers, params=params)
+                tweet_lookup_str = str(tweet_lookup.json()["data"]) + "\n"
+                conn.send(bytes(tweet_lookup_str,'utf-8'))
 
 
 if __name__ == "__main__":
