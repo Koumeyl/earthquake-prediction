@@ -4,6 +4,10 @@ import time
 import os
 import socket
 
+from dotenv import load_dotenv
+load_dotenv()
+
+bearer_token = os.environ["BEARER_TOKEN"]
 
 
 #URL to add rules for tweet search
@@ -51,7 +55,7 @@ query_parameters = {
     }
 
 #Your bearer token to access Twitter streaming API
-BEARER_TOKEN="AAAAAAAAAAAAAAAAAAAAAFK3jgEAAAAA8dOy6QPKaR5TnngMETIpJkGC1dU%3Dd3UWW2438wC0eCHZ3kNEk2ITWSFOQEAe4UBIE8LV94vNU3nt7u"
+BEARER_TOKEN=bearer_token
 
 
 def request_headers(bearer_token: str) -> dict:
