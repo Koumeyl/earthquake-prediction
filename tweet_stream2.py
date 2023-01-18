@@ -20,13 +20,16 @@ tweet_lookup_endpoint = "https://api.twitter.com/2/tweets/"
 query_parameters = {
     "add": [
         # {"value": "地震"},
-        {"value": "jishin"},
+        # {"value": "jishin"},
         # {"value": "gempa bumi"},
         {"value": "terremoto"},
+        {"value": "temblor"},
+        {"value": "sismo"},
+        # {"value": "tsunami"},
         # {"value": "deprem"},
         # {"value": "भूकम्प"},
         # {"value": "bhukamp"},
-        {"value": "earthquake"},
+        # {"value": "earthquake"},
         # {"value": "زلزله"},
         # {"value": "zelzeleh"},
         # {"value": "dìzhèn"},
@@ -45,11 +48,9 @@ query_parameters = {
         # {"value": "მიწისძვრა"},
         # {"value": "mits'idzghvra"},
         {"value":"from:SismologicoMX"},
-        {"value":"from:sismosaldia"},
         {"value":"from:sismos_chile"},
         {"value":"from:Sismos_Peru_IGP"},
-        {"value":"from:USGSted"},
-        {"value": "-is:retweet has:geo (from:NWSNHC OR from:NHC_Atlantic OR from:NWSHouston OR from:NWSSanAntonio OR from:USGS_TexasRain OR from:USGS_TexasFlood OR from:JeffLindner1)"}
+        {"value":"(from:USGSted OR from:LastQuake OR from:EmsC OR from:QuakesToday OR from:earthquakeBot OR from:SismoDetector OR from:InfoEarthquakes OR from:SeismosApp OR fromeveryEarthquake OR from:eqgr)"},
 
         ]
     }
