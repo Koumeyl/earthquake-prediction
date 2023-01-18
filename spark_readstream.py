@@ -20,13 +20,13 @@ lines = spark.readStream.format("socket") \
     .load()
 
 # Create df from raw stream data
-df = lines.select(json_tuple(col("value"),"id","text","lang"),"timestamp") \
-    .toDF("id","text","lang","timestamp")
+df = lines.select(json_tuple(col("value"),"id","text","lang","author_id"),"timestamp") \
+    .toDF("id","text","lang","author_id","timestamp")
 
 # Define the function to write the postgre data
 def patch_postgre (df , batchID) :
     df.write.format("jdbc").option("url", "jdbc:postgresql://localhost:5432/twitterdb") \
-    .option("dbtable", "tbtweets") \
+    .option("dbtable", "tbtweets_user") \
     .option("user", "twitteru1") \
     .option("password","1234").option("driver","org.postgresql.Driver") \
     .option("truncate", False) \

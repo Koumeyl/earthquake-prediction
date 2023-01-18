@@ -14,6 +14,7 @@ bearer_token = os.environ["BEARER_TOKEN"]
 
 endpoint_rules = "https://api.twitter.com/2/tweets/search/stream/rules"
 tweet_lookup_endpoint = "https://api.twitter.com/2/tweets/"
+user_lookup_endpoint = "https://api.twitter.com/2/ysers/"
 
 
 #Body to add into Post request (so this is not "parameter" but "json" part in your Post request)
@@ -106,13 +107,17 @@ def get_tweets(url,headers):
                 json_response = json.loads(line)  #json.loads----->Deserialize fp (a .read()-supporting text file or binary file containing a JSON document) to a Python object using this conversion table.ie json to python object 
                 tweet_id = json_response["data"]["id"]
                 params = {
-                    'tweet.fields':'geo,lang,withheld', 
-                    'expansions':'geo.place_id'
+                    'tweet.fields':'geo,lang',
+                    'user.fields':'id,username,name', 
+                    'expansions':'geo.place_id,author_id'
                     }
                 tweet_lookup = requests.get(url=tweet_lookup_endpoint + tweet_id, headers=headers, params=params)
-                tweet_lookup_str = str(tweet_lookup.json()["data"]) + "\n"
-                print(tweet_lookup_str)
-                conn.send(bytes(tweet_lookup_str,'utf-8'))
+                try:
+                    tweet_lookup_str = str(tweet_lookup.json()["data"]) + "\n"
+                    print(tweet_lookup_str)
+                    conn.send(bytes(tweet_lookup_str,'utf-8'))
+                except Exception as e:
+                    print("Querry_Error------------------------------------------------")
 
 if __name__ == "__main__":
 
